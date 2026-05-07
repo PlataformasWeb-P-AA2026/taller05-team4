@@ -1,21 +1,46 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>vite-jquery-datatable</title>
+    <title>Mundial 2026 — Jugadores</title>
   </head>
   <body>
-    <select id="vista">
-      <option value="por_club">Por club</option>
-      <option value="por_partidos">Por partidos</option>
-      <option value="por_goles">Por goles</option>
-    </select>
+    <header>
+      <div class="header-inner">
+        <span class="header-logo">UTPL</span>
+        <div>
+          <h1>Mundial 2026</h1>
+          <p class="header-sub">Consulta de jugadores por club, goles y partidos</p>
+        </div>
+      </div>
+    </header>
 
-    <input id="filtro" type="text" placeholder="Filtrar por criterio">
+    <main>
+      <div class="controls">
+        <div class="control-group">
+          <label for="vista">Vista</label>
+          <select id="vista">
+            <option value="por_club">Por club</option>
+            <option value="por_partidos">Por partidos</option>
+            <option value="por_goles">Por goles</option>
+          </select>
+        </div>
 
-    <table id="tabla-posts"></table>
+        <div class="control-group">
+          <label for="filtro">Filtrar por criterio</label>
+          <input id="filtro" type="text" placeholder="Ej: Real Madrid, 40…">
+        </div>
+      </div>
+
+      <table id="tabla-posts"></table>
+    </main>
+
+    <footer>
+      <p>Universidad Técnica Particular de Loja &mdash; Plataformas Web &mdash; 2026 &mdash; Grupo 4 &mdash; Antonella Parra - Alberto Herrera</p>
+    </footer>
+
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>
