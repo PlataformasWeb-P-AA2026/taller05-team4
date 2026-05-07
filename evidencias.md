@@ -175,6 +175,7 @@ losjugadores
 ```
 
 ---
+<img width="402" height="807" alt="imagen" src="https://github.com/user-attachments/assets/3b389b77-ea2a-4d50-b126-cd5a0be39773" />
 
 ## Vista por Club
 
