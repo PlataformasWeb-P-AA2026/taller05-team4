@@ -226,6 +226,9 @@ Posteriormente abrir en el navegador la dirección mostrada en la terminal.
 ![Frontend](imagen-12.png)
 
 ---
+NOTA: En el archivo main.js revisar que la direccion url concuerde con el puerto que se esta ejecutando, esto puede causar error en la carga de datos
+
+const BASE_URL = "http://localhost:5985/jugadores/_design/losjugadores/_view/";
 
 # Personalización de la Interfaz
 
