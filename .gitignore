@@ -1,0 +1,5 @@
+# Variables de entorno
+.env
+
+# Datos persistentes de CouchDB
+data/
