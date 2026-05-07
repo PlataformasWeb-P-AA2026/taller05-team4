@@ -124,6 +124,8 @@ jugadores
 
 ![Creación DB](imagen-11.png)
 
+Aqui realizamos un revoke de permisos de roles para poder seguir adelante con la ejecucion:
+
 ![Base creada](imagen-10.png)
 
 # Tercera Etapa: Carga de Datos a CouchDB
