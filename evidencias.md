@@ -1,54 +1,133 @@
-#PASO A PASO DEL PROCESO 
-## PRE ETAPA
-Realizar la instalación de dependencias 
-```bash
-pip install beautifulsoup4 pandas pdfplumber requests
-```
-Esta librería permite:
+# Proyecto CouchDB - Mundial 2026
 
-- Leer archivos HTML.
-- Leer archivos CSV.
-- Extraer información desde PDF.
-- Conectarse con CouchDB.
+# Descripción General
 
-Debemos ejecutar tambien requirements.txt con el 
+Este proyecto tiene como objetivo transformar archivos en distintos formatos (`.html`, `.csv` y `.pdf`) hacia un único archivo `.json`, para posteriormente almacenar la información en una base de datos NoSQL utilizando Apache CouchDB y visualizarla mediante un frontend desarrollado con tecnologías web modernas.
+
+---
+
+# Paso a Paso del Proceso
+
+# Pre Etapa: Instalación de Dependencias
+
+Antes de ejecutar el proyecto, es necesario instalar las dependencias requeridas para el procesamiento y transformación de archivos.
+
+Ejecutar el siguiente comando:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Con este codigo instalamos las dependencias del codigo que transforma los archivos a un .json indicado en la siguiente fase.
-## PRIMERA ETAPA
-En esta etapa transformamos los archivos .html ,.pdf y .csv para hacer que esta información se reescriba en un .json con los siguientes codigos fuentes:
-1. .html a .json
-![alt text](imagen.png)
-2. .csv a .json
-![alt text](imagen-1.png)
-3. .pdf a .json 
-![alt text](imagen-2.png)
-Todo este codigo se encuentra junto en un archivo python que ejecuta los codigos de manera simultanea llamado generar_json que fue recomendacion de la IA Claude
-![alt text](imagen-3.png)
-Despues de ejecutar los codigos correspondientes para cada archivo realizamos el .json final para poder realizar las vistas
+Este comando instala todas las librerías necesarias utilizadas por los scripts encargados de transformar archivos `.html`, `.csv` y `.pdf` hacia formato `.json`.
 
-# Creación de la base de datos en CouchDB
+---
 
-Levantar el contenedor de CouchDB:
+# Primera Etapa: Transformación de Archivos a JSON
+
+En esta etapa se procesan diferentes tipos de archivos para convertir su contenido en estructuras JSON.
+
+## 1. Conversión de `.html` a `.json`
+
+![Conversión HTML](imagen.png)
+
+---
+
+## 2. Conversión de `.csv` a `.json`
+
+![Conversión CSV](imagen-1.png)
+
+---
+
+## 3. Conversión de `.pdf` a `.json`
+
+![Conversión PDF](imagen-2.png)
+
+---
+
+Todos estos procesos fueron integrados dentro de un único script de Python denominado:
+
+```plaintext
+generar_json.py
+```
+
+Este archivo ejecuta simultáneamente todos los procesos de conversión y generación de datos.
+
+![Script principal](imagen-3.png)
+
+Una vez procesados todos los archivos, se genera el archivo final:
+
+```plaintext
+mundial_2026.json
+```
+
+El cual contiene toda la información estructurada y lista para ser almacenada en la base de datos.
+
+---
+
+# Segunda Etapa: Creación de la Base de Datos en CouchDB
+
+## Configuración de entorno
+
+Antes de levantar el contenedor, se creó un archivo `.env` con las credenciales de CouchDB:
+
+```env
+COUCHDB_USER=admin
+COUCHDB_PASSWORD=admin
+COUCHDB_PORT=5984
+```
+
+También se configuró el archivo `docker-compose.yml` para levantar el servicio:
+
+```yaml
+services:
+  couchdb:
+    image: couchdb
+    ports:
+      - "5984:5984"
+
+    environment:
+      COUCHDB_USER: ${COUCHDB_USER}
+      COUCHDB_PASSWORD: ${COUCHDB_PASSWORD}
+```
+
+---
+
+## Levantar el contenedor de CouchDB
+
+Para iniciar el servicio de CouchDB mediante Docker se ejecuta:
 
 ```bash
 docker compose up -d
 ```
 
-Verificar que el contenedor esté funcionando:
+---
+
+## Verificar el estado del contenedor
 
 ```bash
 docker ps
 ```
 
-La base de datos se crea desde la interfaz web de CouchDB.
-![alt text](imagen-11.png)
-![alt text](imagen-10.png)
+Este comando permite verificar que el contenedor de CouchDB se encuentre funcionando correctamente.
 
-# Carga de datos a CouchDB
+---
+
+## Creación de la base de datos
+
+La base de datos se creó desde la interfaz web de CouchDB.
+
+Nombre de la base de datos:
+
+```plaintext
+jugadores
+```
+
+![Creación DB](imagen-11.png)
+
+![Base creada](imagen-10.png)
+
+# Tercera Etapa: Carga de Datos a CouchDB
+
 Para importar el archivo JSON a la base de datos `jugadores` se utilizó el siguiente comando:
 
 ```bash
@@ -58,73 +137,143 @@ curl -u admin:admin \
 -X POST http://127.0.0.1:5984/jugadores/_bulk_docs
 ```
 
-### Explicación
+## Explicación del comando
 
-- `@mundial_2026.json` → archivo JSON con la información
-- `127.0.0.1:5984` → host y puerto de CouchDB
-- `jugadores` → nombre de la base de datos
-- `_bulk_docs` → endpoint para importar múltiples documentos
+- `@mundial_2026.json` → Archivo JSON que contiene la información.
+- `127.0.0.1:5984` → Dirección y puerto donde se encuentra ejecutándose CouchDB.
+- `jugadores` → Nombre de la base de datos creada previamente.
+- `_bulk_docs` → Endpoint utilizado para insertar múltiples documentos de forma masiva.
 
-Este script:
+Este proceso:
 
 - Lee el archivo `mundial_2026.json`.
-- Envía los documentos a CouchDB usando `_bulk_docs`.
-- Inserta los registros en la base de datos `jugadores`.
-![alt text](imagen-4.png)
+- Envía la información a CouchDB.
+- Inserta todos los documentos en la base de datos `jugadores`.
 
-# Creación de vistas
+![Carga de datos](imagen-4.png)
 
-Dentro de CouchDB:
+---
+
+# Cuarta Etapa: Creación de Vistas
+
+Dentro de CouchDB se crearon diferentes vistas para consultar la información almacenada.
+
+## Procedimiento
 
 1. Ingresar a la base de datos `jugadores`.
 2. Abrir la sección `Design Documents`.
-3. Crear un nuevo Design Document llamado:
+3. Crear un nuevo documento de diseño llamado:
 
 ```plaintext
 losjugadores
 ```
 
-## Vista por club
-![alt text](imagen-5.png)
+---
 
-## Vista por goles
+## Vista por Club
 
-![alt text](imagen-6.png)
+![Vista Club](imagen-5.png)
 
-## Vista por partidos
+---
 
-![alt text](imagen-7.png)
+## Vista por Goles
 
-## Ejecución
+![Vista Goles](imagen-6.png)
 
-Abrir una nueva terminal.
+---
 
-Ingresar a la carpeta frontend:
+## Vista por Partidos
+
+![Vista Partidos](imagen-7.png)
+
+---
+
+# Quinta Etapa: Ejecución del Frontend
+
+Abrir una nueva terminal e ingresar a la carpeta del frontend:
 
 ```bash
 cd frontend
 ```
 
-Instalar dependencias:
+---
+
+## Instalación de dependencias
 
 ```bash
 npm install
 ```
 
-Ejecutar la aplicación:
+---
+
+## Ejecución de la aplicación
 
 ```bash
 npm run dev
 ```
 
-Abrir en el navegador la dirección mostrada en la terminal.
-![alt text](imagen-12.png)
+Posteriormente abrir en el navegador la dirección mostrada en la terminal.
 
-## Personalización
+![Frontend](imagen-12.png)
 
-- Se agregaron títulos.
-- Se agregó pie de página.
-- Se utilizaron colores institucionales de la universidad. 
-```bash
-(Regal Blue (Primary): HEX #01416F | RGB: 1, 65, 111 | CMYK: 99, 41, 0, 56Deep Sapphire (Accent): HEX #083866 | RGB: 8, 56, 102 | CMYK: 92, 45, 0, 60Tacha (Gold/Yellow): HEX #D4C05D | RGB: 212, 192, 93 | CMYK: 50, 58, 60, 17)
+---
+
+# Personalización de la Interfaz
+
+Durante el desarrollo del frontend se realizaron distintas personalizaciones visuales:
+
+- Incorporación de títulos personalizados.
+- Inclusión de pie de página.
+- Uso de colores institucionales de la universidad.
+
+## Paleta de colores utilizada
+
+### Regal Blue (Primary)
+
+```plaintext
+HEX: #01416F
+RGB: 1, 65, 111
+CMYK: 99, 41, 0, 56
 ```
+
+### Deep Sapphire (Accent)
+
+```plaintext
+HEX: #083866
+RGB: 8, 56, 102
+CMYK: 92, 45, 0, 60
+```
+
+### Tacha (Gold/Yellow)
+
+```plaintext
+HEX: #D4C05D
+RGB: 212, 192, 93
+CMYK: 50, 58, 60, 17
+```
+
+---
+
+# Tecnologías Utilizadas
+
+- Python
+- JSON
+- Docker
+- Apache CouchDB
+- JavaScript
+- Node.js
+- Vite
+- HTML5
+- CSS3
+
+---
+
+# Resultado Final
+
+El proyecto permite:
+
+- Transformar información desde múltiples formatos.
+- Consolidar datos en archivos JSON.
+- Almacenar información en CouchDB.
+- Consultar datos mediante vistas.
+- Visualizar la información desde una interfaz web personalizada.
