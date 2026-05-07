@@ -132,6 +132,8 @@ Aqui realizamos un revoke de permisos de roles para poder seguir adelante con la
 
 # Tercera Etapa: Carga de Datos a CouchDB
 
+NOTA: ejecutar en cmd y no en powershell
+
 Para importar el archivo JSON a la base de datos `jugadores` se utilizó el siguiente comando:
 
 ```bash
