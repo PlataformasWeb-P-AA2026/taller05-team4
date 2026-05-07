@@ -144,7 +144,7 @@ curl -u admin:admin \
 -H "Content-type: application/json" \
 -X POST http://127.0.0.1:5984/jugadores/_bulk_docs
 ```
-
+NOTA: El archivo cargar couch db puede realizar todo este proceso desde la creacion de la base la carga de datos y la creacion de vistas utilizando las credenciales que existen en el .env si no existe el .env se utilizan valores por defecto.
 ## Explicación del comando
 
 - `@mundial_2026.json` → Archivo JSON que contiene la información.
