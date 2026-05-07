@@ -45,3 +45,9 @@ function(doc) {
 * Archivo mundial_2026.json
 * Evidencia de carga en CouchDB (agregar en evidencias.md)
 * Capturas del frontend funcionando (agregar en evidencias.md)
+
+
+
+
+
+NOTA: Para la ejecucion de este proyecto de forma organizada revisar el archivo evidencias.md :D
