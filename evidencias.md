@@ -66,6 +66,8 @@ El cual contiene toda la información estructurada y lista para ser almacenada e
 
 # Segunda Etapa: Creación de la Base de Datos en CouchDB
 
+NOTA: Deberia tener instalado Docker
+
 ## Configuración de entorno
 
 Antes de levantar el contenedor, se creó un archivo `.env` con las credenciales de CouchDB:
