@@ -109,8 +109,10 @@ docker ps
 ```
 
 Este comando permite verificar que el contenedor de CouchDB se encuentre funcionando correctamente.
-
----
+Para la verificar apropiadamente la ejecucion acceda a esta direccion:
+```bash
+[docker ps](http://localhost:5985/_utils/#login)
+```
 
 ## Creación de la base de datos
 
