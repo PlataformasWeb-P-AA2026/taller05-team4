@@ -48,11 +48,20 @@ def crear_base_datos():
     resp = requests.get(url, auth=AUTH)
     if resp.status_code == 404:
         requests.put(url, auth=AUTH).raise_for_status()
+        # Do NOT set _security on this database — access is controlled at server level only.
         print(f"[OK] Base de datos '{DB_NAME}' creada.")
     elif resp.status_code == 200:
         print(f"[OK] Base de datos '{DB_NAME}' ya existe.")
     else:
         resp.raise_for_status()
+
+
+def limpiar_permisos():
+    url = f"{BASE_URL}/{DB_NAME}/_security"
+    empty_security = {"admins": {"names": [], "roles": []},
+                      "members": {"names": [], "roles": []}}
+    requests.put(url, json=empty_security, auth=AUTH).raise_for_status()
+    print(f"[OK] Permisos de '{DB_NAME}' limpiados (sin restricciones por rol).")
 
 
 def cargar_documentos():
@@ -92,6 +101,7 @@ def crear_vistas():
 def main():
     print(f"Conectando a CouchDB en {BASE_URL} (usuario: {_user}) ...")
     crear_base_datos()
+    limpiar_permisos()
     cargar_documentos()
     crear_vistas()
     print("\nProceso completado exitosamente!")
