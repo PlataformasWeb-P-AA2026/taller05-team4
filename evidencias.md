@@ -70,7 +70,8 @@ NOTA: Deberia tener instalado Docker
 
 ## Configuración de entorno
 
-Antes de levantar el contenedor, se creó un archivo `.env` con las credenciales de CouchDB:
+Antes de levantar el contenedor, se creó un archivo `.env` con las credenciales de CouchDB: 
+Se puede utilizar el comando cp .env.example .env en linux o el comando copy .env.example .env en windows
 
 ```env
 COUCHDB_USER=admin
